@@ -1,6 +1,7 @@
-
+import Models.Employee;
+import Services.EmployeeDAO;
+import Services.EmployeeDAOImpl;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
@@ -16,21 +17,14 @@ public class Application {
                 "Solovyev",
                 "man",
                 26,2);
-               employeeDAO.deleteEmployeeById(14);
+       // employeeDAO.getAllEmployees();
+       // testDataBase(connection);
+        List<Employee> employeeList = employeeDAO.getAllEmployees();
+        employeeList.forEach(System.out::println);
     }
 
-    public static void testDataBase() {
-        final String user = "postgres";
-        final String password = "Debekyatko69701";
-        final String url = "jdbc:postgresql://localhost:5432/skypro";
-
-        public static void testDataBase() {
-            final String user = "postgres";
-            final String password = "DthjybrfZ";
-            final String url = "jdbc:postgresql://localhost:5432/skypro";
-        }
+    public static void testDataBase(Connection connection) {
             try {
-            Connection connection = DriverManager.getConnection(url, user, password);
             PreparedStatement preparedStatement = connection
                     .prepareStatement("SELECT first_name," +
                             "last_name," +
