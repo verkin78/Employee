@@ -1,15 +1,17 @@
-package services;
+package servise;
 
 import models.Employee;
 import java.util.List;
 
 public interface EmployeeDAO {
+
     void createEmployee(Employee employee);
 
     Employee getEmployeeById(int id);
+
     List<Employee> getAllEmployees();
 
-    void setEmployeeCityByid(int id, int cityId);
+    void setEmployeeCityByid(Employee employee);
 
-    void deleteEmployeeById(int id);
+    void deleteEmployeeById(Employee employee);
 }
