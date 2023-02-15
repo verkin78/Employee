@@ -1,7 +1,7 @@
-package Services;
+package services;
 
-import Models.City;
-import Models.Employee;
+import models.City;
+import models.Employee;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

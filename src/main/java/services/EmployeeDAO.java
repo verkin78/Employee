@@ -1,6 +1,6 @@
-package Services;
+package services;
 
-import Models.Employee;
+import models.Employee;
 import java.util.List;
 
 public interface EmployeeDAO {

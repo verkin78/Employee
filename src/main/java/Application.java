@@ -1,6 +1,6 @@
-import Models.Employee;
-import Services.EmployeeDAO;
-import Services.EmployeeDAOImpl;
+import models.Employee;
+import services.EmployeeDAO;
+import services.EmployeeDAOImpl;
 import java.sql.*;
 import java.util.List;
 
