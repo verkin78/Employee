@@ -1,12 +1,12 @@
 package services;
 
-import config.HibernateSessionFactoryUtil;
+
+import configuration.HibernateSessionFactoryUtil;
 import models.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
 
-import static jdk.internal.reflect.ReflectionFactory.config;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
@@ -30,7 +30,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         List<Employee> employees = (List<Employee>)  HibernateSessionFactoryUtil
-                .getSessionFactory().openSession().createQuery("From Employee ").list();
+                .getSessionFactory().openSession()
+                .createQuery("From Employee").list();
         return employees;
     }
 

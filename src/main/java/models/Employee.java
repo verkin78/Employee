@@ -1,15 +1,12 @@
 package models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NonNull
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -24,11 +21,11 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
     @Column(name = "city_id")
-    private int city;
+    private long city;
 
-    public Employee(String firstName, String lastName, String gender, int age, int city) {
+    public Employee(String firstName, String lastName, String gender, int age, long city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

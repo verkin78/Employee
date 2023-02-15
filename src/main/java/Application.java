@@ -12,13 +12,12 @@ public class Application {
                 "Davidov",
                 "man",
                 9,
-                19,
                 5);
         // employeeDAO.createEmployee(employee);
         // System.out.println(employeeDAO.getEmployeeById(1));
         //  employeeDAO.setEmployeeCityByid(employee);
         // employeeDAO.deleteEmployeeById(employee);
-        List<Employee> employeeList = employeeDAO.getAllEmployees();
+       List<Employee> employeeList = employeeDAO.getAllEmployees();
         employeeList.forEach(System.out::println);
     }
 }
