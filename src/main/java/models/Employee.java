@@ -1,12 +1,13 @@
 package models;
 
 import lombok.*;
-
+import servise.CityDao;
+import servise.CityDaoImpl;
 import javax.persistence.*;
 
+@AllArgsConstructor
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -22,24 +23,46 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "city_id")
-    private long city;
+    @ManyToOne(fetch =FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
 
-    public Employee(String firstName, String lastName, String gender, int age, long city) {
+    private static CityDao cityDao = new CityDaoImpl();
+
+    public Employee(String firstName,
+                    String lastName,
+                    String gender,
+                    int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
-        this.city = city;
+    }
+
+    public Employee(String firstName,
+                    String lastName,
+                    String gender,
+                    int age,
+                    City city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        cityDao.createCity(city);
+        this.city = new City(city.getId());
+    }
+
+    public Employee(long id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return "id "+id +"."+
-                " First_Name - " + firstName + "."+
-                " Last_Name - " + lastName +"."+
-                " Gender - " + gender +"."+
-                " Age - " + age +"."+
-                " CityId - " + city+".";
+        return "id " + id + "." +
+                " First_Name - " + firstName + "." +
+                " Last_Name - " + lastName + "." +
+                " Gender - " + gender + "." +
+                " Age - " + age +
+                " City - " + city;
     }
 }
