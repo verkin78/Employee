@@ -1,15 +1,15 @@
 package services;
 
-
 import configuration.HibernateSessionFactoryUtil;
+import models.City;
 import models.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
 
-
 public class EmployeeDAOImpl implements EmployeeDAO {
 
+    CityDAO cityDao = new CityDAOImpl();
     public EmployeeDAOImpl() {
     }
 
@@ -20,10 +20,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             session.save(employee);
             transaction.commit();
         }
+        if (employee.getCity() != null) {
+            cityDao.createCity(new City(employee.getCity().getCityName()));
+        }
+
     }
 
     @Override
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(long id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Employee.class, id);
     }
 
@@ -45,7 +49,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void deleteEmployeeById(Employee employee) {
+    public void deleteEmployeeById(long id) {
+        Employee employee = new Employee(id);
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(employee);
