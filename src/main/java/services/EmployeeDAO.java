@@ -7,11 +7,11 @@ public interface EmployeeDAO {
 
     void createEmployee(Employee employee);
 
-    Employee getEmployeeById(int id);
+    Employee getEmployeeById(long id);
 
     List<Employee> getAllEmployees();
 
     void setEmployeeCityByid(Employee employee);
 
-    void deleteEmployeeById(Employee employee);
+    void deleteEmployeeById(long id);
 }
