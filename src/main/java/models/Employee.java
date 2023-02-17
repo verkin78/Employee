@@ -1,16 +1,68 @@
 package models;
 
-import models.City;
-import models.Employee;
+import lombok.*;
+import servise.CityDAO;
+import servise.CityDaoImpl;
+import javax.persistence.*;
 
-import java.util.List;
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "employee")
+public class Employee {
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "age")
+    private int age;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+    @ManyToOne(fetch =FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
 
-public interface CityDAO {
+    private static CityDAO cityDao = new CityDAOImpl();
 
-    void createCity(City city);
+    public Employee(String firstName,
+                    String lastName,
+                    String gender,
+                    int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+    }
 
-    City getCityById(long id);
+    public Employee(String firstName,
+                    String lastName,
+                    String gender,
+                    int age,
+                    City city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        cityDao.createCity(city);
+        this.city = new City(city.getId());
+    }
 
-    List<City> getAllCity();
+    public Employee(long id) {
+        this.id = id;
+    }
 
+    @Override
+    public String toString() {
+        return "id " + id + "." +
+                " First_Name - " + firstName + "." +
+                " Last_Name - " + lastName + "." +
+                " Gender - " + gender + "." +
+                " Age - " + age +
+                " City - " + city;
+    }
 }
