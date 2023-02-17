@@ -1,8 +1,8 @@
 package models;
 
 import lombok.*;
-import servise.CityDAO;
-import servise.CityDaoImpl;
+import services.CityDAO;
+import services.CityDAOImpl;
 import javax.persistence.*;
 
 @AllArgsConstructor
