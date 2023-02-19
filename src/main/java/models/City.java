@@ -17,7 +17,7 @@ public class City {
     private  long id;
     @Column(name = "city_name")
     private  String cityName;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city",cascade = CascadeType.ALL)
     private List<Employee> employees;
 
     public City(long id) {
