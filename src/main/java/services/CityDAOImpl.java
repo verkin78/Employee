@@ -5,6 +5,8 @@ import models.City;
 import models.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityDAOImpl implements CityDAO{
@@ -21,14 +23,23 @@ public class CityDAOImpl implements CityDAO{
 
     @Override
     public City getCityById(long id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(City.class, id);
+        City city = new City();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            city = session.get(City.class, id);
+            transaction.commit();
+        }
+        return city;
     }
 
     @Override
     public List<City> getAllCity() {
-        List<City> cities = (List<City>)  HibernateSessionFactoryUtil
-                .getSessionFactory().openSession()
-                .createQuery("From City ").list();
+        List<City> cities = new ArrayList<>();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            cities = session.createQuery("from City").list();
+            transaction.commit();
+        }
         return cities;
     }
 

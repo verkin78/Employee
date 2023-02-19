@@ -5,13 +5,11 @@ import models.City;
 import models.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
-
-    CityDAO cityDao = new CityDAOImpl();
-    public EmployeeDAOImpl() {
-    }
 
     @Override
     public void createEmployee(Employee employee) {
@@ -20,28 +18,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             session.save(employee);
             transaction.commit();
         }
-        if (employee.getCity() != null) {
-            cityDao.createCity(new City(employee.getCity().getCityName()));
-        }
-
     }
 
     @Override
     public Employee getEmployeeById(long id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Employee.class, id);
+        Employee employee = new Employee();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            employee = session.get(Employee.class, id);
+            transaction.commit();
+        }
+        return employee;
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        List<Employee> employees = (List<Employee>)  HibernateSessionFactoryUtil
-                .getSessionFactory().openSession()
-                .createQuery("From Employee").list();
+        List<Employee> employees = new ArrayList<>();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            employees = session.createQuery("from Employee ").list();
+            transaction.commit();
+        }
         return employees;
     }
 
     @Override
     public void setEmployeeCityByid(Employee employee) {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.update(employee);
             transaction.commit();
