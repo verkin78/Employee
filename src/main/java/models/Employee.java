@@ -23,11 +23,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @ManyToOne(fetch =FetchType.EAGER)
+    @ManyToOne(fetch =FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
     private City city;
-
-    private static CityDAO cityDao = new CityDAOImpl();
 
     public Employee(String firstName,
                     String lastName,
@@ -48,8 +46,7 @@ public class Employee {
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
-        cityDao.createCity(city);
-        this.city = new City(city.getId());
+        this.city = city;
     }
 
     public Employee(long id) {
