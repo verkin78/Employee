@@ -1,0 +1,63 @@
+package services;
+
+import configuration.HibernateSessionFactoryUtil;
+import models.City;
+import models.Employee;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+    @Override
+    public void createEmployee(Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(employee);
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public Employee getEmployeeById(long id) {
+        Employee employee = new Employee();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            employee = session.get(Employee.class, id);
+            transaction.commit();
+        }
+        return employee;
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            employees = session.createQuery("from Employee ").list();
+            transaction.commit();
+        }
+        return employees;
+    }
+
+    @Override
+    public void setEmployeeCityByid(Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.update(employee);
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void deleteEmployeeById(long id) {
+        Employee employee = new Employee(id);
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(employee);
+            transaction.commit();
+        }
+    }
+}
