@@ -2,6 +2,7 @@ package services;
 
 import configuration.HibernateSessionFactoryUtil;
 import models.City;
+import models.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
@@ -29,5 +30,24 @@ public class CityDAOImpl implements CityDAO{
                 .getSessionFactory().openSession()
                 .createQuery("From City ").list();
         return cities;
+    }
+
+    @Override
+    public void updateCity(City city) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()){
+            Transaction transaction = session.beginTransaction();
+            session.update(city);
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void deleteCityById(long id) {
+        City city = new City(id);
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(city);
+            transaction.commit();
+        }
     }
 }

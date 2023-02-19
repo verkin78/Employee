@@ -10,4 +10,8 @@ public interface CityDAO {
     City getCityById(long id);
 
     List<City> getAllCity();
+
+    void updateCity(City city);
+
+    void deleteCityById(long id);
 }
